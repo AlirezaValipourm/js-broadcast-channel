@@ -1,0 +1,33 @@
+{
+  "name": "broadcast-js",
+  "version": "1.0.0",
+  "description": "Broadcast-js",
+  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "babel src -d dist",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "BroadcastAPI"
+  ],
+  "author": "Alireza Valipou",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/broadcast-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/broadcast-js/issues"
+  },
+  "homepage": "https://github.com/username/broadcast-js#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.x.x",
+    "@babel/core": "^7.x.x",
+    "@babel/preset-env": "^7.x.x",
+    "@types/node": "^22.13.2",
+    "jest": "^29.x.x",
+    "typescript": "^5.7.3"
+  }
+}

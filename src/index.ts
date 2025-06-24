@@ -1,1 +1,1 @@
-export * from "./broadcast";
+export { BroadcastJS, Message } from "./broadcast";

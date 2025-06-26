@@ -1,5 +1,5 @@
 interface IBroadcastJS {
-    close: () => void;
+    close: VoidFunction;
     postMessage: (message: Message) => void;
     onMessage: (messageName: string, onReceive: (message: Message) => void) => void;
     canBrowserSupportBroadcastJS: () => boolean;
@@ -13,7 +13,7 @@ export interface Message<T = unknown> {
 }
 
 enum InternalMessages {
-    RemoveMessage = "removeMessage"
+    RemoveMessage = "rm"
 }
 
 interface BroadcastHandlers {
@@ -21,8 +21,8 @@ interface BroadcastHandlers {
     onAfterSendMessage?: (message: Message) => void;
     onBeforePostMessage?: (message: Message) => void;
     onAfterPostMessage?: (message: Message) => void;
-    onBeforeClose?: () => void;
-    onAfterClose?: () => void;
+    onBeforeClose?: VoidFunction;
+    onAfterClose?: VoidFunction;
     onError?: (message: Message) => void;
 }
 
@@ -50,16 +50,6 @@ export class BroadcastJS implements IBroadcastJS {
         return BroadcastJS.bcJSInstance;
     }
 
-    /**
-     * Closes the broadcast channel.
-     *
-     * @returns {void}
-     *
-     * @example
-     * const broadcast = new BroadcastJS("channelName");
-     * broadcast.close();
-     */
-
     public close(): void {
         BroadcastJS.handlers.onBeforeClose?.();
         BroadcastJS.bcInstance.close();
@@ -68,37 +58,12 @@ export class BroadcastJS implements IBroadcastJS {
         BroadcastJS.handlers.onAfterClose?.();
     }
 
-    /**
-     * Posts a message to the broadcast channel.
-     *
-     * @param {Message} message - The message to post.
-     * @returns {void}
-     * 
-     * @example
-     * const broadcast = new BroadcastJS("channelName");
-     * broadcast.postMessage({ message: "message", data: { count: 0 } });
-     */
     public postMessage(message: Message): void {
         const serializedMessage = this.createSerializedMessage(message.message, message.data, false);
         BroadcastJS.handlers.onBeforePostMessage?.(message);
         BroadcastJS.bcInstance.postMessage(serializedMessage);
         BroadcastJS.handlers.onAfterPostMessage?.(message);
     }
-
-
-    /**
-     * Calls a callback when a message is received.
-     *
-     * @param {string} messageName - The name of the message to call the callback for.
-     * @param {function} onRecieve - The callback to call when a message is received.
-     * @returns {void}
-     *
-     * @example
-     * const broadcast = new BroadcastJS("channelName");
-     * broadcast.onMessage("name", (message) => {
-     *     console.log(message);
-     * });
-     */
 
     public onMessage<T>(messageName: string, onRecieve: (message: Message<T>) => void): void {
         BroadcastJS.messageCallbacks.set(messageName, onRecieve as (message: Message) => void);
@@ -111,7 +76,6 @@ export class BroadcastJS implements IBroadcastJS {
                 return;
             }
 
-            // calling the proper callback based on the message name
             const callback = BroadcastJS.messageCallbacks.get(receivedMessage.message);
             if (callback) {
                 BroadcastJS.handlers.onBeforeSendMessage?.(message);
@@ -142,7 +106,6 @@ export class BroadcastJS implements IBroadcastJS {
         let isInternalMessage = false;
         switch (messageName) {
             case InternalMessages.RemoveMessage:
-                // remove the message from the messageCallbacks
                 BroadcastJS.messageCallbacks.delete(message.data as string);
                 isInternalMessage = true;
                 break;
@@ -153,7 +116,6 @@ export class BroadcastJS implements IBroadcastJS {
         return isInternalMessage;
     }
 
-    // manual serialization to make it predictable
     private createMessage(name: string, data: unknown, isInternal: boolean): Message {
         const message = {
             message: name,

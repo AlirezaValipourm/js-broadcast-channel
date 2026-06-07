@@ -8,9 +8,7 @@ export default defineConfig({
   treeshake: true,
   target: 'es2020',
   clean: true,
-  esbuildOptions: (options, { format }) => {
-    if (format === 'esm') {
-      options.mangleProps = /^_/
-    }
+  esbuildOptions: (options) => {
+    options.mangleProps = /^_private_/
   }
 })

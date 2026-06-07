@@ -1,6 +1,6 @@
 {
   "name": "js-broadcast-channel",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Broadcast-js",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -45,6 +45,7 @@
     }
   },
   "homepage": "https://github.com/AlirezaValipourm/js-broadcast-channel#readme",
+  "sideEffects": false,
   "devDependencies": {
     "@types/node": "^22.13.2",
     "tsup": "^8.3.6",

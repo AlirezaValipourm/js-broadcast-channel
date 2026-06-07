@@ -12,9 +12,10 @@ export interface Message<T = unknown> {
     isInternal?: boolean;
 }
 
-enum InternalMessages {
-    RemoveMessage = "rm"
-}
+const InternalMessages = {
+    RemoveMessage: "rm"
+} as const;
+type InternalMessages = typeof InternalMessages[keyof typeof InternalMessages];
 
 interface BroadcastHandlers {
     onBeforeSendMessage?: (message: Message) => void;

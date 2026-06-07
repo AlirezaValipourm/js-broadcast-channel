@@ -2,8 +2,11 @@
   "name": "js-broadcast-channel",
   "version": "1.4.1",
   "description": "Broadcast-js",
-  "main": "index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm --minify --treeshake --target es2020 --clean",
     "dev": "tsup src/index.ts --dts --format esm --watch",

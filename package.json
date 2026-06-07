@@ -1,6 +1,6 @@
 {
   "name": "js-broadcast-channel",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Broadcast-js",
   "types": "dist/index.d.ts",
   "files": [

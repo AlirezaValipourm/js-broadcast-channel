@@ -1,8 +1,13 @@
 src/
 test/
+coverage/
 .gitignore
 .npmignore
 tsconfig.json
+tsup.config.ts
 jest.config.js
+package-lock.json
 *.test.js
+*.test.ts
 *.spec.js
+*.spec.ts
